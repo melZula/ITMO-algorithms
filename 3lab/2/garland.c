@@ -1,48 +1,52 @@
 #include <stdio.h>
 
-int binarySearch(int arr[], int l, int r, int x) 
-{ 
-   if (r >= l) 
-   { 
-        int mid = l + (r - l)/2; 
-  
-        if (arr[mid] == x)   
-            return mid; 
+int realz;
+double h_prev=10000;
 
-        if (arr[mid] > x)  
-            return binarySearch(arr, l, mid-1, x); 
-
-        return binarySearch(arr, mid+1, r, x); 
-   } 
-   return -1; 
-} 
-
-float bini(float b, int i)
+double binsearch(int l, int r, double a)
 {
-	printf("b=%f i=%d\n", b, i);
-	return ((b > 1) ? bini(b/2 - 1, ++i) : i );
+	int zero;
+	zero = (l + r) / 2;
+	int n = zero - 1;
+
+	if (a/(n+1) - n == h_prev)
+	{
+		realz = zero;
+		return h_prev;
+	}
+	h_prev = (a/(n+1) - n);
+	if (h_prev > 0)
+	{
+		realz = zero;
+		binsearch(zero+1, r, a);
+	}
+	else
+		binsearch(l, zero-1, a);
+		
+	return h_prev;
 }
 
 int main(void)
 {
 	int i, n;
-	float A;
+	double A, h0, h1, h2;
 	FILE *fin, *fout;
 	fin = fopen("garland.in", "r");
 	fout = fopen("garland.out", "w");
 
-	fscanf(fin, "%d %f\n", &n, &A);
+	fscanf(fin, "%d %lf\n", &n, &A);
 	
-	n--;
-	while (A > 1)
+	h1 = binsearch(1, n-1, A);
+	h2 = 0;
+	for (i = realz+1; i<n; i++)
 	{
-		A = A/2 - 1;
-		printf("A=%f\n", A);
-		n--;
+		h0 = h1;
+		h1 = h2;
+		h2 = 2*h1 + 2 - h0;
 	}
-	printf ("n=%d\n", n);
-	printf ("bini=%f\n", bini(15, 0));
 	
+	fprintf(fout, "%4.2f\n", h2);
+
 	fclose(fin);
 	fclose(fout);
 	return 0;
