@@ -2,8 +2,6 @@ fin = open("brackets.in", "r")
 fout = open("brackets.out", "w")
 
 def check(text):
-	if type(text) != str:
-		raise ValueError
 	brackets_open = ('(', '[')
 	brackets_closed = (')', ']')
 	storage = []

@@ -8,14 +8,14 @@ struct stack
 	long long head;
 };
 
+void init(struct stack stk)
 
-int pushy(struct stack stk, long long n)
+void pushy(struct stack stk, long long n)
 {
 	if (n+1 < SIZE)
 		printf("push %lld\n", n);
 		stk.elem[stk.head] = n;
 		stk.head++;
-		return 0;
 }
 
 long long int pop(struct stack stk)
@@ -24,9 +24,9 @@ long long int pop(struct stack stk)
 	return (stk.elem[stk.head]);
 }
 
-int main()
+int main(void)
 {
-	struct stack stk;
+	init(stk)
 	stk.head = 0;
 	
 	pushy(stk, 66);
