@@ -1,30 +1,30 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
-#include <stdio.h>
 using namespace std;
  
 int tree[200001][3];
-int HGT = -1;
+int flag = 1;
  
-void height(int curr, int h){
-	HGT = (h > HGT) ? h : HGT;
+void check(long long curr, long long min, long long max){
+	if ((tree[curr][0] <= min)||(tree[curr][0] >= max)){
+		flag = 0;
+	}
     if (tree[curr][1] != 0){
-        height(tree[curr][1], h+1);
+        check(tree[curr][1], min, tree[curr][0]);
     }
     if (tree[curr][2] != 0){
-        height(tree[curr][2], h+1);
+        check(tree[curr][2], tree[curr][0], max);
     }
-   
 }
 int main() {
-    ifstream fin("height.in");
-    ofstream fout("height.out");
+    ifstream fin("check.in");
+    ofstream fout("check.out");
  
     int n, i, temp;
     fin >> n;
     if (n == 0){
-        fout << 0;
+        fout << "YES";
         return 0;
     }
    
@@ -36,9 +36,7 @@ int main() {
         fin >> temp;
         tree[i][2] = temp;
     }
-   
-    height(1, 1);
-   
-    fout << HGT;
+	check(1, -1000000000, 1000000000);
+    fout << ((flag == 1) ? "YES" : "NO");
     return 0;
 }
