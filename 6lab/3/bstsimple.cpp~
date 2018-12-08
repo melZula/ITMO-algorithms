@@ -2,202 +2,157 @@
 #include <fstream>
 #include <stdlib.h>
 using namespace std;
-
+ 
 struct leaf{
-	long long value;
-	leaf *parent;
-	leaf *lchild;
-	leaf *rchild;
+    long long value;
+    leaf *parent;
+    leaf *lchild;
+    leaf *rchild;
 };
-
-void insert(leaf *curr,long long key){
-	if (curr->value == -1000000001){			//insert first node
-		curr->value = key;
-	}else{
-		if (curr->value < key){							//write right
-			if (curr->rchild != NULL){
-				insert(curr->rchild, key); 
-				}
-			else{
-				leaf *node = new(leaf);
-				curr->rchild = node;
-				node->parent = curr;
-				node->lchild = NULL;
-				node->rchild = NULL;
-				node->value = key;
-			}
-		}
-		else{
-			if (curr->value > key){								//write left
+ 
+leaf *insert(leaf *curr,long long key){
+    if (curr->value == -1000000001){            //insert first node
+        curr->value = key;
+        return curr;
+    }else{
+        if (curr->value < key){                         //write right
+            if (curr->rchild != NULL){
+                return insert(curr->rchild, key);
+                }
+            else{
+                leaf *node = new(leaf);
+                curr->rchild = node;
+                node->parent = curr;
+                node->lchild = NULL;
+                node->rchild = NULL;
+                node->value = key;
+                return node;
+            }
+        }
+        else{
+            if (curr->value > key){//write left
 				if (curr->lchild != NULL){
-					insert(curr->lchild, key); 
-					}
-				else{
-					leaf *node = new(leaf);
-					curr->lchild = node;
-					node->parent = curr;
-					node->lchild = NULL;
-					node->rchild = NULL;
-					node->value = key;
+				    return insert(curr->lchild, key);
+				} else{
+				    leaf *node = new(leaf);
+				    curr->lchild = node;
+				    node->parent = curr;
+				    node->lchild = NULL;
+				    node->rchild = NULL;
+				    node->value = key;
+				    return node;
 				}
-			}
-		}
-	}
+				} else
+				    return NULL;
+            }
+        }
+    }
 }
-
-leaf *search(leaf *curr, long long key){				printf("search %lld (%lld)\n", curr->value, key);
-	if (curr->value == key){	printf("YES \n");
-		return curr;                          
-	}else{
-		if ((curr->lchild == NULL)&&(curr->rchild == NULL)){
-			return NULL;
-		}
-		if (key > curr->value)
-			return search(curr->rchild, key);
-		else{
-			if (key < curr->value)
-				return search(curr->lchild, key);
-		}
-	}
+ 
+leaf *search(leaf *root, long long key){        //printf("SEaRCH %p\n", root);  //printf("search %lld (%lld)\n", root->value, key);
+    if ((root == NULL)||(root->value == key)){  //printf("YES (%p %lld) \n", root, root->value);
+        return root;                          
+    }else{                                      //printf ("%lld ", root->value);
+        if (key > root->value)
+            return search(root->rchild, key);      
+        else{
+            return search(root->lchild, key);
+        }
+    }
 }
-
-leaf *prev(leaf *curr,long long key){			//prev for functions
-	leaf *state = search(curr, key);
-	if (state->lchild == NULL)
-		return NULL;
-	else{
-		state = state->lchild;
-		while (state->rchild != NULL){
-			state = state->rchild;
-		}
-		return state;
-	}
+ 
+leaf *next(leaf *root, long long key){
+    leaf *current = root;
+    leaf *successor = NULL;          
+    while (current != NULL){    //printf("next %lld\n", current->value);
+        if (current->value > key){
+            successor = current;
+            current = current->lchild;
+        }else
+            current = current->rchild;
+    }
+   return successor;
 }
-leaf *next(leaf *curr,long long key){			//next for functions
-	leaf *state = search(curr, key);
-	if (state->rchild == NULL)
-		return NULL;
-	else{
-		state = state->rchild;
-		while (state->lchild != NULL){
-			state = state->lchild;
-		}
-		return state;
-	}
+ 
+leaf *prev(leaf *root, long long key){          //printf ("PREV\n");
+    leaf *current = root;
+    leaf *successor = NULL;          
+    while (current != NULL){
+        if (current->value < key){
+            successor = current;
+            current = current->rchild;
+        }else
+            current = current->lchild;
+    }
+   return successor;
 }
-
-void del(leaf *curr,long long key){
-	leaf *delleaf = search(curr, key); printf("delleaf %p\n", delleaf);
-	if (delleaf != NULL){
-		if ((delleaf->lchild != NULL) != (delleaf->rchild != NULL)){	//simple case 1 child
-			if (delleaf->lchild == NULL){
-				delleaf->rchild->parent = delleaf->parent;
-				delleaf->parent->rchild = delleaf->rchild;	
-				printf(" %lld  %lld\n",delleaf->rchild->parent->value, delleaf->parent->rchild->value);
-				free(delleaf);
-			}else{												printf("del L ");
-				delleaf->lchild->parent = delleaf->parent;
-				delleaf->parent->lchild = delleaf->lchild;
-				printf(" %lld  %lld\n",delleaf->lchild->parent->value, delleaf->parent->lchild->value);
-				free(delleaf);
-			}
-		} else if ((delleaf->lchild == NULL)&&(delleaf->rchild == NULL)){						// simple case 0 child
-			if (delleaf->parent->rchild == delleaf)
-				delleaf->parent->rchild = NULL;
-			else 															//if (delleaf->parent->lchild == delleaf)
-				delleaf->parent->lchild = NULL;
-			free(delleaf);
-		} if (prev(curr, key) != NULL){											// hard case
-			leaf *change = prev(curr, key);
-			curr->value = change->value;
-			curr->parent = change->parent;
-			curr->lchild = change->lchild;
-			curr->rchild = change->rchild;
-			del(change, change->value);
-		} else if (next(curr, key) != NULL){
-			leaf *change = next(curr, key);
-			curr->value = change->value;
-			curr->parent = change->parent;
-			curr->lchild = change->lchild;
-			curr->rchild = change->rchild;
-			del(change, change->value);
-		}
-	}
+ 
+void del(leaf *curr,long long key){             //printf ("ST DEL\n");
+    leaf *delleaf = search(curr, key);      //printf("delleaf (%p %lld) par (%p %lld)\n", delleaf, delleaf->value);
+    if (delleaf != NULL){
+        if ((delleaf->lchild == NULL)&&(delleaf->rchild == NULL)){  //printf(" child=0 "); printf("delleaf (%p, %lld) delleaf.par (%p %lld) del.par.ch (%p %lld) \n", delleaf,delleaf->value, delleaf->parent,delleaf->parent->value , delleaf->parent->rchild, delleaf->parent->rchild->value);    // simple case 0 child
+            if (delleaf->parent->rchild == delleaf){
+                delleaf->parent->rchild = NULL;                 //printf("del zeroch R ");
+                delleaf->parent = NULL;
+            }else{ if (delleaf->parent->lchild == delleaf){
+                delleaf->parent->lchild = NULL;                 //printf("del zeroonech L ");
+                delleaf->parent = NULL;
+                }
+            }
+            free (delleaf);
+        } else { //printf("HARD ");
+            if (next(curr, key) != NULL){                   //printf("find next for del \n");
+                leaf *change = next(curr, key);
+                delleaf->value = change->value;
+                del(change, change->value);
+            } else if (prev(curr, key) != NULL){                            // hard case
+                leaf *change = prev(curr, key);                 //printf("find prev for del (%p %lld)\n", change, change->value);
+                delleaf->value = change->value;
+                del(change, change->value);
+            }
+        }
+    }
+    //printf("END DEL\n");
 }
-
-long long prevImg(leaf *curr, long long key){					// search prev that may not exists
-	insert(curr, key); 								printf ("insert elem ");
-
-	leaf *state = search(curr, key);
-	long long max = -1000000001;
-	while (state->parent != NULL){
-		if ((state == state->parent->rchild)&&(state->parent->value > max)){
-			max = state->parent->value;	printf ("max = %lld", max);
-			}
-		state = state->parent;
-	}
-	*state = *search(curr, key);				//delete insert
-	if (state->parent->rchild == state)
-		state->parent->rchild = NULL;
-	else 
-		state->parent->lchild = NULL;
-	free(state);
-	
-	return max;
-}
-
-long long nextImg(leaf *curr, long long key){					// search next that may not exists
-	insert(curr, key); 								printf ("insert elem ");
-
-	leaf *state = search(curr, key);
-	long long min = 1000000001;
-	while (state->parent != NULL){
-		if ((state == state->parent->lchild)&&(state->parent->value < min)){
-			min = state->parent->value;	printf ("min = %lld", min);
-			}
-		state = state->parent;
-	}
-	*state = *search(curr, key);				//delete insert
-	del(state, key);
-	
-	return min;
-}
-
-
-
+ 
+ 
+ 
+ 
 int main() {
     ifstream fin("bstsimple.in");
     ofstream fout("bstsimple.out");
     string cmd;
     long long now;
-	
-	leaf *node = new(leaf); //first leaf
-	node->value = -1000000001;
-	node->parent = NULL;
-	node->lchild = NULL;
-	node->rchild = NULL;
-	
-    while (fin >> cmd) {
-    	fin >> now;
-    	if (cmd == "insert") 
-            insert(node, now);
-		else if (cmd == "delete"){
-				del(node, now);
-		} else if (cmd == "prev"){
-				long long answ = prevImg(node, now);
-				if (answ == -1000000001)
-					fout << "null" << endl;
-				else fout << answ;
-		} else if (cmd == "next"){
-			long long answ = nextImg(node, now);
-				if (answ == 1000000001)
-					fout << "null" << endl;
-				else fout << answ;
-		} else if (cmd == "exists"){
-			leaf *answ = search(node, now);
-			fout << ((answ == NULL) ? "false" : "true") << endl;
-		}
+   
+    leaf *root = new(leaf); //first leaf
+    root->value = -1000000001;
+    root->parent = NULL;
+    root->lchild = NULL;
+    root->rchild = NULL;
+   
+    while (fin >> cmd){ //printf ("%d\n", n++);
+        fin >> now;
+        if (cmd == "insert")
+            insert(root, now);
+        else if (cmd == "delete"){
+            del(root, now);
+        }else if (cmd == "prev"){
+            leaf *answ = prev(root, now);
+            if (answ == NULL)
+                fout << "none" << endl;
+            else fout << answ->value << endl;
+        } else if (cmd == "next"){
+            leaf *answ = next(root, now);
+            if (answ == NULL)
+                fout << "none" << endl;
+            else fout << answ->value << endl;
+        } else if (cmd == "exists"){
+            leaf *answ = search(root, now);
+            fout << ((answ == NULL) ? "false" : "true") << endl;
+        }
+        //printf("--------\n");
     }
-    
+    //printf("root (%p %lld)\n", root, root->value);
+    //printf("1: %lld \n 2: %lld \n\n", root->value, root->lchild->value);
     return 0;
 }
