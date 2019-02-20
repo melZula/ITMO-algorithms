@@ -8,6 +8,7 @@ using namespace std;
 
 vector< vector<int> > G;
 vector<int> used;
+vector<int> answ;
 
 void BFS(int s, int iter) {
   s--;
@@ -29,11 +30,23 @@ void BFS(int s, int iter) {
 
 void DFS (int v) {
   printf("%d\n", v );
-	used[v] = true;
-	for (size_t i = 0; i < G[v].size(); i++) {
-		if (!used[G[v][i]])
-			DFS (G[v][i]);
+  used[v] = true;
+  for (size_t i = 0; i < G[v].size(); i++) {
+    if (!used[G[v][i]])
+    DFS (G[v][i]);
   }
+}
+
+void topsort() {
+  for (int i=0; i<n; ++i)
+  used[i] = false;
+  answ.clear();
+  for (int i=0; i<n; ++i) {
+    if (!used[i]) {
+      dfs (i);
+    }
+  }
+  reverse (answ.begin(), answ.end());
 }
 
 int main() {
@@ -51,16 +64,16 @@ int main() {
   for (i = 0; i < E; i++) {
     fin >> x >> y;
     G[x-1].push_back(y-1);
-    G[y-1].push_back(x-1);
   }
 
   for (i = 0; i < V; i++) {
-    printf("%d: ", i);
+    printf("%d: ",i );
     for (j = 0; j < G[i].size(); j++) {
-      printf("%d ", G[i][j] );
+      printf("%d ", G[i][j]);
     }
     printf("\n" );
   }
+
 
   DFS(0);
 
