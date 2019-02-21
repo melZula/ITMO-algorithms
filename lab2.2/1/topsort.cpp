@@ -9,44 +9,29 @@ using namespace std;
 vector< vector<int> > G;
 vector<int> used;
 vector<int> answ;
-
-void BFS(int s, int iter) {
-  s--;
-  queue<int> q;
-  used[s] = iter;
-  q.push(s);
-  while (!q.empty()) {
-    int v = q.front();
-    q.pop();
-    for (size_t i = 0; i < G[v].size(); i++) {
-      int to = G[v][i];
-      if (!used[to]) {
-        q.push(to);
-        used[to] = iter;
-      }
-    }
-  }
-}
+int flag = 0;
 
 void DFS (int v) {
-  printf("%d\n", v );
-  used[v] = true;
-  for (size_t i = 0; i < G[v].size(); i++) {
-    if (!used[G[v][i]])
-    DFS (G[v][i]);
-  }
-}
-
-void topsort() {
-  for (int i=0; i<n; ++i)
-  used[i] = false;
-  answ.clear();
-  for (int i=0; i<n; ++i) {
-    if (!used[i]) {
-      dfs (i);
+  used[v] = 1;  // 1 - gray 2 - black
+  int i;
+  for (i = 0; i < G[v].size(); i++) {
+    if (used[G[v][i]] == 1) {
+      flag = 1;
+    } else {
+      if (used[G[v][i]] == 0) DFS (G[v][i]);
     }
   }
-  reverse (answ.begin(), answ.end());
+  used[v] = 2;
+  answ.push_back(v);
+}
+
+void topsort(int V) {
+  answ.clear();
+  for (int i=0; i < V; ++i) {
+    if (!used[i]) {
+      DFS (i);
+    }
+  }
 }
 
 int main() {
@@ -58,7 +43,7 @@ int main() {
 
   G.resize(V);
   used.resize(V, 0);
-  int answ[E];
+  answ.resize(V);
 
   int i, j, x, y;
   for (i = 0; i < E; i++) {
@@ -66,19 +51,13 @@ int main() {
     G[x-1].push_back(y-1);
   }
 
-  for (i = 0; i < V; i++) {
-    printf("%d: ",i );
-    for (j = 0; j < G[i].size(); j++) {
-      printf("%d ", G[i][j]);
+  topsort(V);
+
+  if (!flag) {
+    for (j = answ.size()-1; j > -1; j--) {
+      fout << answ[j]+1 << ' ';
     }
-    printf("\n" );
-  }
+  } else fout << -1;
 
-
-  DFS(0);
-
-  for (j = 0; j < V; j++) {
-    fout << used[j] << ' ';
-  }
   return 0;
 }
