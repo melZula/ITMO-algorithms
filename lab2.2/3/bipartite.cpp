@@ -9,21 +9,25 @@ using namespace std;
 vector< vector<int> > G;
 vector<int> used;
 vector<int> group;
+bool flag = false;
 
 void BFS(int s) {
   s--;
   queue<int> q;
   used[s] = 1;
+  group[s] = 1; // 1, -1 group
   q.push(s);
   while (!q.empty()) {
     int v = q.front();
     q.pop();
     for (size_t i = 0; i < G[v].size(); i++) {
       int to = G[v][i];
+      if (group[to] != group[v]) {
+        group[to] = -group[v];
+      } else flag = true;
       if (!used[to]) {
         q.push(to);
         used[to] = 1;
-        // add group and check for inbi
       }
     }
   }
@@ -44,10 +48,16 @@ int main() {
   for (i = 0; i < E; i++) {
     fin >> x >> y;
     G[x-1].push_back(y-1);
+    G[y-1].push_back(x-1);
   }
 
-  // check all components
+  for (i = 0; i < V; i++) {
+    if (!used[i]) {
+      BFS(i + 1);
+    }
+  }
 
+  fout << (flag ? "NO" : "YES");
 
   return 0;
 }
