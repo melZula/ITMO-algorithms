@@ -4,23 +4,30 @@
 #include <stdio.h>
 #include <vector>
 #include <queue>
+#include <stack>
 using namespace std;
 
 vector< vector<int> > G;
 vector<int> used;
-vector<int> time;
+stack<int> times;
 vector<int> answ;
 int tout = 0;
 
+void timeDFS (int v) {
+  used[v] = 1;
+  for (int i = 0; i < G[v].size(); i++) {
+    if (!used[G[v][i]]) timeDFS (G[v][i]);
+  }
+  times.push(v);
+  //printf("%ld -- %d\n", times.size(), times.top()+1);
+}
+
 void DFS (int v) {
   used[v] = 1;
-  int i;
-  for (i = 0; i < G[v].size(); i++) {
+  for (int i = 0; i < G[v].size(); i++) {
     if (!used[G[v][i]]) DFS (G[v][i]);
   }
-  time[v] = tout++;
-  printf("%d -- %d\n",v+1, time[v]);
-  answ.push_back(v);
+  answ.push_back(v);   // HERE WTF
 }
 
 void topsort(int V) {
@@ -30,6 +37,12 @@ void topsort(int V) {
       DFS (i);
     }
   }
+}
+
+void condition(int V) {
+  topsort(V);
+  used.resize(V, 0);
+  // HERE
 }
 
 int main() {
@@ -42,7 +55,6 @@ int main() {
   G.resize(V);
   used.resize(V, 0);
   answ.resize(V);
-  time.resize(V);
 
   int i, j, x, y;
   for (i = 0; i < E; i++) {
@@ -50,11 +62,11 @@ int main() {
     G[x-1].push_back(y-1);
   }
 
-  topsort(V);
+  topsort(V); // HERE
 
-
-  for (j = 0; j > time.size(); j++) {
-    fout << time[j] << ' ';
+  for (j = 0; j > times.size(); j++) { // HERE
+    fout << times.top() << ' ';
+    times.pop();
   }
 
   return 0;
