@@ -45,6 +45,7 @@ void condition(int V) {
   used.clear();
   used.resize(V, 0);
   for (int i = 0; i < V; i++) {
+    printf("%d \n", times.top());
     if (!used[times.top()]) {
       DFS(times.top());
       iter++;
@@ -75,7 +76,7 @@ int main() {
   condition(V);
 
   fout << iter - 1 << endl;
-  for (size_t i = 0; i < V; i++) {
+  for (int i = 0; i < V; i++) {
     fout << answ[i] << ' ';
   }
 
