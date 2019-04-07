@@ -4,29 +4,31 @@
 #include <queue>
 using namespace std;
 
-vector < vector<int> > g;
-vector <bool> used;
-const long int INF = 100000;
-vector <int> d;
+vector < vector<pair<unsigned int,unsigned short int> > > g;
+const int INF = 1000000;
+vector <unsigned long int> d;
 
-void dijkstra (int s, int n) {
-  used.resize(n, false);
+void dijkstra (unsigned int s, unsigned int n) {
+  vector <bool> used (n, false);
   d.resize(n, INF);
+
+  priority_queue < pair<long int, unsigned int> > q;   // using priority_queue to find min
+  q.push (make_pair (0, s));
+
   d[s] = 0;
 
-  for (size_t i = 0; i < n; i++) {
-    int v = -1;
-    for (size_t j = 0; j < n; j++) {  // finding min from all unused
-      if (!used[j] && (v == -1 || d[j] < d[v]))
-      v = j;
-    }
+  while (!q.empty()) {
+    int v = q.top().second;
+    unsigned int currdist = -q.top().first;
+    q.pop();
+    if (currdist > d[v])  continue; // check dist to same v
 
-    if (d[v] == INF) break;
-    used[v] = true;
-
-    for (size_t j = 0; j < n; j++) {  // relax
-      if (d[v]+g[v][j] < d[j]) {
-        d[j] = d[v]+g[v][j];
+    for (size_t j = 0; j < g[v].size(); j++) {  // relax
+      unsigned int to = g[v][j].first,
+      len = g[v][j].second;
+      if (d[v]+len < d[to]) {
+        d[to] = d[v]+len;
+        q.push (make_pair (-d[to], to));
       }
     }
   }
@@ -36,26 +38,16 @@ int main() {
   ifstream fin("pathbgep.in");
   ofstream fout("pathbgep.out");
 
-  int V, E;
+  unsigned int V, E;
   fin >> V >> E;
 
   g.resize(V);
-  for (size_t i = 0; i < V; i++) {
-    g[i].resize(V);
-  }
 
   int i, j, x, y, z;
-  for (i = 0; i < V; i++) {
-    for (j = 0; j < V; j++) {
-      if (i == j) g[i][j] = 0;
-      else
-      g[i][j] = INF;
-    }
-  }
   for (i = 0; i < E; i++) { // to adj
     fin >> x >> y >> z;
-    g[x-1][y-1] = z;
-    g[y-1][x-1] = z;
+    g[x-1].push_back(make_pair(y-1, z));
+    g[y-1].push_back(make_pair(x-1, z));
   }
 
   dijkstra(0, V);
