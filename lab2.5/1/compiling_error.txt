@@ -1,0 +1,172 @@
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:5:1: error: 'vector' does not name a type; did you mean 'perror'?
+ vector < vector<int> > C; // flow matrix
+ ^~~~~~
+ perror
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:6:1: error: 'vector' does not name a type; did you mean 'perror'?
+ vector < vector<int> > F; // current flow
+ ^~~~~~
+ perror
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:7:1: error: 'vector' does not name a type; did you mean 'perror'?
+ vector <int> push; // flow in v
+ ^~~~~~
+ perror
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:8:1: error: 'vector' does not name a type; did you mean 'perror'?
+ vector <int> mark;
+ ^~~~~~
+ perror
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:9:1: error: 'vector' does not name a type; did you mean 'perror'?
+ vector <int> pred;
+ ^~~~~~
+ perror
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp: In function 'void init()':
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:15:26: error: 'N' was not declared in this scope
+   for (size_t i = 0; i < N; i++) {
+                          ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:16:5: error: 'mark' was not declared in this scope
+     mark[i] = false;
+     ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:17:5: error: 'push' was not declared in this scope
+     push[i] = 0;
+     ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:17:5: note: suggested alternative: 'putw'
+     push[i] = 0;
+     ^~~~
+     putw
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:18:5: error: 'pred' was not declared in this scope
+     pred[i] = 0;
+     ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:18:5: note: suggested alternative: 'fread'
+     pred[i] = 0;
+     ^~~~
+     fread
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp: In function 'bool bfs(int, int)':
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:26:3: error: 'queue' was not declared in this scope
+   queue<int> Q;
+   ^~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:26:3: note: suggested alternative:
+In file included from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/queue:64,
+                 from C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:3:
+C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/stl_queue.h:96:11: note:   'std::queue'
+     class queue
+           ^~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:26:9: error: expected primary-expression before 'int'
+   queue<int> Q;
+         ^~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:27:3: error: 'mark' was not declared in this scope
+   mark[s] = true;
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:28:3: error: 'pred' was not declared in this scope
+   pred[s] = s;
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:28:3: note: suggested alternative: 'fread'
+   pred[s] = s;
+   ^~~~
+   fread
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:29:3: error: 'push' was not declared in this scope
+   push[s] = INF;
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:29:3: note: suggested alternative: 'putw'
+   push[s] = INF;
+   ^~~~
+   putw
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:30:3: error: 'Q' was not declared in this scope
+   Q.push(s);
+   ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:35:24: error: 'C' was not declared in this scope
+       if (!mark[v] && (C[u][v] - F[u][v] > 0)) {
+                        ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:35:34: error: 'F' was not declared in this scope
+       if (!mark[v] && (C[u][v] - F[u][v] > 0)) {
+                                  ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp: In function 'void max_flow_ff()':
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:48:21: error: too many arguments to function 'bool bfs(int, int)'
+   while (bfs(s, t, n)) {
+                     ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:22:6: note: declared here
+ bool bfs(int s, int t) {
+      ^~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:49:15: error: 'push' was not declared in this scope
+     int add = push[t];
+               ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:49:15: note: suggested alternative: 'putw'
+     int add = push[t];
+               ^~~~
+               putw
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:51:9: error: 'pred' was not declared in this scope
+     u = pred[v];
+         ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:51:9: note: suggested alternative: 'fread'
+     u = pred[v];
+         ^~~~
+         fread
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:53:7: error: 'F' was not declared in this scope
+       F[u][v] += add;
+       ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp: In function 'int main()':
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:64:3: error: 'ifstream' was not declared in this scope
+   ifstream fin("maxflow.in");
+   ^~~~~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:64:3: note: suggested alternative:
+In file included from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/ios:38,
+                 from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/ostream:38,
+                 from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iostream:39,
+                 from C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:1:
+C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iosfwd:162:34: note:   'std::ifstream'
+   typedef basic_ifstream<char>   ifstream;
+                                  ^~~~~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:65:3: error: 'ofstream' was not declared in this scope
+   ofstream fout("maxflow.out");
+   ^~~~~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:65:3: note: suggested alternative:
+In file included from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/ios:38,
+                 from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/ostream:38,
+                 from C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iostream:39,
+                 from C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:1:
+C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iosfwd:165:34: note:   'std::ofstream'
+   typedef basic_ofstream<char>   ofstream;
+                                  ^~~~~~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:67:3: error: 'fin' was not declared in this scope
+   fin >> n >> m;
+   ^~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:67:3: note: suggested alternative: 'main'
+   fin >> n >> m;
+   ^~~
+   main
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:69:3: error: 'C' was not declared in this scope
+   C.resize(n);
+   ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:70:3: error: 'F' was not declared in this scope
+   F.resize(n);
+   ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:71:3: error: 'push' was not declared in this scope
+   push.resize(n);
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:71:3: note: suggested alternative: 'putw'
+   push.resize(n);
+   ^~~~
+   putw
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:72:3: error: 'mark' was not declared in this scope
+   mark.resize(n);
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:72:3: note: suggested alternative: 'main'
+   mark.resize(n);
+   ^~~~
+   main
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:73:3: error: 'pred' was not declared in this scope
+   pred.resize(n);
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:73:3: note: suggested alternative: 'fread'
+   pred.resize(n);
+   ^~~~
+   fread
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:77:19: error: 'E' was not declared in this scope
+   for (i = 0; i < E; i++) {
+                   ^
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:84:3: error: 'cout' was not declared in this scope
+   cout << max_flow;
+   ^~~~
+C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:84:3: note: suggested alternative:
+In file included from C:\Users\Zula\Documents\GitHub\ITMO-tasks\lab2.5\1\maxflow.cpp:1:
+C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iostream:61:18: note:   'std::cout'
+   extern ostream cout;  /// Linked to standard output
+                  ^~~~
