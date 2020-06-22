@@ -5,7 +5,7 @@
 using namespace std;
 
 vector < vector<long long int> > e;
-const long long int INF = INT_MAX;
+const long long int INF = LLONG_MAX;
 vector <long long int> d;
 vector <bool> cycle;
 
@@ -49,7 +49,7 @@ int main() {
   ford_bellman(V, E, S-1);
 
   for (size_t i = 0; i < V; i++) {
-    if (cycle[i] || abs(d[i]) > 5000000000000000000) {
+    if (cycle[i] || d[i] < -5000000000000000000) {
       cout << '-' << endl;
     } else
     if (d[i] == INF) {
